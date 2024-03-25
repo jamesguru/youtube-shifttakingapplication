@@ -1,0 +1,101 @@
+.staff{
+    margin: 5% 15%;
+}
+
+.stafftop{
+    display: flex;
+    justify-content: space-between;
+}
+
+.staff_name{
+    font-weight: 500;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.profile_icon{
+    margin-right: 10px;
+    font-size: 18px;
+}
+
+.staff_profile{
+    position: relative;
+    width: 200px;
+}
+
+.staff_account{
+    display: flex;
+    flex-direction: column;
+    z-index:999;
+    position: absolute;
+    top: -3;
+    background-color: rgb(97, 128, 167);
+    color: #fff;
+    padding: 10px;
+    margin-right: 20px;
+}
+
+.staff_account span{
+    font-weight: 300;
+    cursor: pointer;
+}
+
+.staff_account span:hover{
+    color: #aaa;
+}
+
+.shift_header{
+    font-weight: 500;
+    margin: 20px 0px;
+}
+
+.staff_main_card{
+    height: auto;
+    padding: 5px;
+    background-color: #1dbf730f;
+    margin: 10px 0px;
+    border-radius: 5px;
+    border-left: 10px solid rgb(24 92 175);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.staff_main_card_unassigned{
+    height: auto;
+    padding: 5px;
+    background-color: #1dbf730f;
+    margin: 10px 0px;
+    border-radius: 5px;
+    border-left: 10px solid #a5a5c6;
+    display: flex;
+    align-items: center;
+    justify-content: space-between; 
+}
+
+.staff_main_card_date{
+  display: flex;
+  flex-direction: column;
+  margin:20px;
+  justify-content: center;
+    
+}
+
+.staff_main_card_date span{
+    font-weight: 600;
+    margin: 2px;
+    font-size: 25px;
+    color: rgb(118 142 172);
+    width: 10%;
+}
+
+.staff_main_card_info{
+    display: flex;
+    flex-direction: column;
+    width: 35%;
+}
+
+.staff_main_card_info span:nth-child(1){
+    font-size: 18px;
+    font-weight: 500;
+}
