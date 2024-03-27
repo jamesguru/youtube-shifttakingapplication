@@ -6,6 +6,7 @@ import UpdatePassword from './pages/UpdatePassword/UpdatePassword'
 import Staff from './pages/Staff/Staff'
 import Account from './pages/Account/Account'
 import Shifts from './pages/Shifts/Shifts'
+import Report from './pages/Report/Report'
 
 function App() {
   const router = createBrowserRouter([
@@ -37,6 +38,10 @@ function App() {
     {
       path: "/myshifts",
       element: <Shifts />,
+    },
+    {
+      path: "/report",
+      element: <Report />,
     },
   ])
 
