@@ -1,0 +1,143 @@
+.shift{
+    margin: 3% 10%;
+    display: flex;
+    height: 200%;
+}
+
+.shift_details{
+    flex: 1;
+    padding: 20px;
+    border-radius: 10px;
+    width: 300px;
+    margin: 20px;
+    height: auto;
+    background-color: #1dbf730f;
+}
+
+.shift ul{
+    list-style: none;
+}
+
+.shift_take_btn{
+    margin: 20px 0px;
+    width: 150px;
+    cursor: pointer;
+    font-weight: 900;
+    border: none;
+    color: #fff;
+    background-color: rgb(24 92 175);
+    padding: 10px;
+}
+
+
+.add_casenotes{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.add_casenotes span{
+    margin-right: 20px;
+}
+
+.add_casenotes_icon{
+    cursor: pointer;
+}
+
+.casenotes_inputs{
+    display: flex;
+    flex-direction: column;
+}
+
+.casenotes_inputs button{
+    
+    margin: 20px 0px;
+    width: 150px;
+    cursor: pointer;
+    border: none;
+    color: #fff;
+    background-color: rgb(24 92 175);
+    padding: 10px; 
+
+}
+
+.shift_clockin_btn{
+    margin: 20px;
+    width: 150px;
+    cursor: pointer;
+    border: none;
+    color: #fff;
+    background-color: rgb(25 185 25);
+    padding: 10px;   
+}
+
+.shift_clockout_btn{
+    margin: 20px;
+    width: 150px;
+    cursor: pointer;
+    border: none;
+    color: #fff;
+    background-color: rgb(241 84 84);
+    padding: 10px;   
+}
+
+.button-container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #f0f0f0;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+.shift_report_btn{
+    margin: 20px;
+    width: 150px;
+    cursor: pointer;
+    border: none;
+    color: #fff;
+    background-color:red;
+    padding: 10px;   
+}
+
+.distance{
+    display: flex;
+    align-items: center;
+    margin: 20px 0px;
+}
+
+.distance input{
+    width: 70px;
+    margin: 0px 5px;
+}
+
+.distance span{
+    margin: 0px 5px;
+    color: #333;
+    font-size: 15px;
+}
+
+.distance button{
+    margin: 20px 0px;
+    cursor: pointer;
+    border: none;
+    color: #fff;
+    background-color: rgb(24 92 175);
+    padding: 10px;    
+}
+
+table{
+    width: 100%;
+    margin: 20px 0px;
+}
+
+tr{
+    height: 50px;
+    cursor: pointer;
+}
+
+tr:nth-child(even){
+    background-color: #1dbf730f;
+}
