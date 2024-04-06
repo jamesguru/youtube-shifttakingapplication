@@ -9,6 +9,8 @@ import NewUser from "./pages/newUser/NewUser";
 import ProductList from "./pages/productList/ProductList";
 import Product from "./pages/product/Product";
 import NewProduct from "./pages/newProduct/NewProduct";
+import Announcement from "./pages/Announcement/Announcement";
+import ClientList from "./pages/ClientList/ClientList";
 
 function App() {
   return (
@@ -20,22 +22,28 @@ function App() {
           <Route exact path="/">
             <Home />
           </Route>
-          <Route path="/users">
+          <Route path="/staffs">
             <UserList />
           </Route>
-          <Route path="/user/:userId">
+          <Route path="/clients">
+            <ClientList />
+          </Route>
+          <Route path="/staff/:staffId">
             <User />
           </Route>
-          <Route path="/newUser">
+          <Route path="/announcement">
+            <Announcement />
+          </Route>
+          <Route path="/newStaff">
             <NewUser />
           </Route>
-          <Route path="/products">
+          <Route path="/shifts">
             <ProductList />
           </Route>
-          <Route path="/product/:productId">
+          <Route path="/shift/:shiftId">
             <Product />
           </Route>
-          <Route path="/newproduct">
+          <Route path="/newShift">
             <NewProduct />
           </Route>
         </Switch>

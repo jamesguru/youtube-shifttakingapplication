@@ -1,12 +1,12 @@
-import "./userList.css";
+import "./clientList.css";
 import { DataGrid } from "@material-ui/data-grid";
 import { DeleteOutline } from "@material-ui/icons";
-import { staffRows } from "../../dummyData";
+import { clientsRows } from "../../dummyData";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 
-export default function UserList() {
-  const [data, setData] = useState(staffRows);
+export default function ClientList() {
+  const [data, setData] = useState(clientsRows);
 
   const handleDelete = (id) => {
     setData(data.filter((item) => item.id !== id));
@@ -17,8 +17,9 @@ export default function UserList() {
     { field: "fullname", headerName: "Full Name", width: 150 },
     { field: "phone", headerName: "Phone No", width: 150 },
     { field: "address", headerName: "Address", width: 150 },
-    { field: "gender", headerName: "Gender", width: 150 },
-    { field: "staffID", headerName: "Staff ID", width: 150 },
+    { field: "gender", headerName: "Gender", width: 100 },
+    { field: "startdate", headerName: "Start Contract", width: 200 },
+    { field: "enddate", headerName: "End Contract", width: 200 },
     {
       field: "action",
       headerName: "Action",

@@ -12,6 +12,7 @@ import {
   ChatBubbleOutline,
   WorkOutline,
   Report,
+  AnnouncementOutlined
 } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 
@@ -41,25 +42,34 @@ export default function Sidebar() {
         <div className="sidebarMenu">
           <h3 className="sidebarTitle">Quick Menu</h3>
           <ul className="sidebarList">
-            <Link to="/users" className="link">
+          <Link to="/staffs" className="link">
               <li className="sidebarListItem">
                 <PermIdentity className="sidebarIcon" />
-                Users
+                Staffs
               </li>
             </Link>
-            <Link to="/products" className="link">
+          <Link to="/clients" className="link">
+              <li className="sidebarListItem">
+                <PermIdentity className="sidebarIcon" />
+                Clients
+              </li>
+            </Link>
+           
+            <Link to="/shifts" className="link">
               <li className="sidebarListItem">
                 <Storefront className="sidebarIcon" />
-                Products
+                Shifts
               </li>
             </Link>
+            <Link to="/announcement">
             <li className="sidebarListItem">
-              <AttachMoney className="sidebarIcon" />
-              Transactions
+              <AnnouncementOutlined className="sidebarIcon" />
+              Announcements
             </li>
+            </Link>
             <li className="sidebarListItem">
               <BarChart className="sidebarIcon" />
-              Reports
+              Incidences
             </li>
           </ul>
         </div>

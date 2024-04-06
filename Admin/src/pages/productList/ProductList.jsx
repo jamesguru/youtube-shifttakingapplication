@@ -1,43 +1,25 @@
 import "./productList.css";
 import { DataGrid } from "@material-ui/data-grid";
 import { DeleteOutline } from "@material-ui/icons";
-import { productRows } from "../../dummyData";
+import { shiftRows } from "../../dummyData";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 
 export default function ProductList() {
-  const [data, setData] = useState(productRows);
-
-  const handleDelete = (id) => {
+  const [data, setData] = useState(shiftRows);
+console.log(data);
+  const handleDelete = () => {
+    const id=1;
     setData(data.filter((item) => item.id !== id));
   };
 
   const columns = [
     { field: "id", headerName: "ID", width: 90 },
-    {
-      field: "product",
-      headerName: "Product",
-      width: 200,
-      renderCell: (params) => {
-        return (
-          <div className="productListItem">
-            <img className="productListImg" src={params.row.img} alt="" />
-            {params.row.name}
-          </div>
-        );
-      },
-    },
-    { field: "stock", headerName: "Stock", width: 200 },
-    {
-      field: "status",
-      headerName: "Status",
-      width: 120,
-    },
-    {
-      field: "price",
-      headerName: "Price",
-      width: 160,
-    },
+    { field: "location", headerName: "Location", width: 150 },
+    { field: "date", headerName: "Date", width: 150},
+    { field: "time", headerName: "Time", width: 150},
+    { field: "duration", headerName: "Duration", width: 150 },
+    { field: "client", headerName: "Client", width: 150 },
     {
       field: "action",
       headerName: "Action",
@@ -45,12 +27,12 @@ export default function ProductList() {
       renderCell: (params) => {
         return (
           <>
-            <Link to={"/product/" + params.row.id}>
+            <Link to={"/shift/" + params.row.id}>
               <button className="productListEdit">Edit</button>
             </Link>
             <DeleteOutline
               className="productListDelete"
-              onClick={() => handleDelete(params.row.id)}
+              onClick={() => handleDelete()}
             />
           </>
         );
