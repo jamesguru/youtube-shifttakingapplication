@@ -3,10 +3,29 @@ import { DataGrid } from "@material-ui/data-grid";
 import { DeleteOutline } from "@material-ui/icons";
 import { clientsRows } from "../../dummyData";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { publicRequest } from "../../requestMethods";
 
 export default function ClientList() {
-  const [data, setData] = useState(clientsRows);
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const getShifts = async () => {
+      try {
+        setLoading(true);
+        const res = await publicRequest.get("/clients");
+        setData(res.data);
+        setLoading(false);
+      } catch (error) {
+        console.log(error);
+        setLoading(false);
+      }
+    };
+
+    getShifts();
+  }, []);
+ 
 
   const handleDelete = (id) => {
     setData(data.filter((item) => item.id !== id));
@@ -42,13 +61,18 @@ export default function ClientList() {
 
   return (
     <div className="userList">
-      <DataGrid
+      {loading ? (
+       <span>Loading ...</span>
+      ) : (
+        <DataGrid
         rows={data}
         disableSelectionOnClick
         columns={columns}
         pageSize={8}
+        getRowId={(row) => row._id}
         checkboxSelection
       />
+      )}
     </div>
   );
 }
