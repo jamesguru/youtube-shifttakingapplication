@@ -3,17 +3,35 @@ import { DataGrid } from "@material-ui/data-grid";
 import { DeleteOutline } from "@material-ui/icons";
 import { staffRows } from "../../dummyData";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { publicRequest } from "../../requestMethods";
 
 export default function UserList() {
-  const [data, setData] = useState(staffRows);
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const getStaffs = async () => {
+      try {
+        setLoading(true);
+        const res = await publicRequest.get("/users");
+        setData(res.data);
+        setLoading(false);
+      } catch (error) {
+        console.log(error);
+        setLoading(false);
+      }
+    };
+
+    getStaffs();
+  }, []);
 
   const handleDelete = (id) => {
     setData(data.filter((item) => item.id !== id));
   };
   
   const columns = [
-    { field: "id", headerName: "ID", width: 90 },
+    { field: "_id", headerName: "ID", width: 90 },
     { field: "fullname", headerName: "Full Name", width: 150 },
     { field: "phone", headerName: "Phone No", width: 150 },
     { field: "address", headerName: "Address", width: 150 },
@@ -41,13 +59,18 @@ export default function UserList() {
 
   return (
     <div className="userList">
-      <DataGrid
+      {loading ? (
+       <span>Loading ...</span>
+      ) : (
+        <DataGrid
         rows={data}
         disableSelectionOnClick
         columns={columns}
         pageSize={8}
+        getRowId={(row) => row._id}
         checkboxSelection
       />
+      )}
     </div>
   );
 }

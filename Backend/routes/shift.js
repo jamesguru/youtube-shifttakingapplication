@@ -6,7 +6,7 @@ const router = express.Router();
 
 // ADD SHIFT
 
-router.post("/",verifyToken,async (req, res) => {
+router.post("/",async (req, res) => {
   try {
     const newShift = Shift(req.body);
     const shift = await newShift.save();
@@ -23,6 +23,8 @@ router.post("/",verifyToken,async (req, res) => {
         req.body.notes
       );
     }
+
+    res.status(201).json('Shift has been added successfully')
   } catch (error) {
     res.status(500).json(error);
   }
@@ -30,7 +32,7 @@ router.post("/",verifyToken,async (req, res) => {
 
 // GET ALL SHIFTS
 
-router.get("/", verifyToken, async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const shifts = await Shift.find().sort({ createdAt: -1 });
     res.status(200).json(shifts);
