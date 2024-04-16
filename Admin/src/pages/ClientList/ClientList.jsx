@@ -46,7 +46,7 @@ export default function ClientList() {
       renderCell: (params) => {
         return (
           <>
-            <Link to={"/staff/" + params.row.id}>
+            <Link to={"/client/" + params.row._id}>
               <button className="userListEdit">Edit</button>
             </Link>
             <DeleteOutline

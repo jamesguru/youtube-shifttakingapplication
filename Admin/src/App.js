@@ -11,6 +11,7 @@ import Product from "./pages/product/Product";
 import NewProduct from "./pages/newProduct/NewProduct";
 import Announcement from "./pages/Announcement/Announcement";
 import ClientList from "./pages/ClientList/ClientList";
+import Client from "./pages/client/Client"
 
 function App() {
   return (
@@ -27,6 +28,9 @@ function App() {
           </Route>
           <Route path="/clients">
             <ClientList />
+          </Route>
+          <Route path="/client/:clientId">
+           <Client />
           </Route>
           <Route path="/staff/:staffId">
             <User />

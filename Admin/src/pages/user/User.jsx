@@ -5,11 +5,30 @@ import {
   PermIdentity,
   PhoneAndroid,
   Publish,
+  Description
 } from "@material-ui/icons";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import "./user.css";
+import { useEffect, useState } from "react";
+import { publicRequest } from "../../requestMethods";
 
 export default function User() {
+  const [staff, setStaff] = useState({});
+  const location = useLocation();
+  const id = location.pathname.split("/")[2];
+
+  useEffect(() => {
+    const getStaff = async () => {
+      try {
+        const res = await publicRequest.get("/users/find/" + id);
+        setStaff(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    getStaff();
+  }, []);
   return (
     <div className="user">
       <div className="userTitleContainer">
@@ -27,15 +46,15 @@ export default function User() {
               className="userShowImg"
             />
             <div className="userShowTopTitle">
-              <span className="userShowUsername">Anna Becker</span>
-              <span className="userShowUserTitle">Software Engineer</span>
+              <span className="userShowUsername">{staff.fullname}</span>
+
             </div>
           </div>
           <div className="userShowBottom">
             <span className="userShowTitle">Account Details</span>
             <div className="userShowInfo">
               <PermIdentity className="userShowIcon" />
-              <span className="userShowInfoTitle">annabeck99</span>
+              <span className="userShowInfoTitle">{staff.username}</span>
             </div>
             <div className="userShowInfo">
               <CalendarToday className="userShowIcon" />
@@ -44,15 +63,24 @@ export default function User() {
             <span className="userShowTitle">Contact Details</span>
             <div className="userShowInfo">
               <PhoneAndroid className="userShowIcon" />
-              <span className="userShowInfoTitle">+1 123 456 67</span>
+              <span className="userShowInfoTitle">{staff.phone}</span>
             </div>
             <div className="userShowInfo">
               <MailOutline className="userShowIcon" />
-              <span className="userShowInfoTitle">annabeck99@gmail.com</span>
+              <span className="userShowInfoTitle">{staff.email}</span>
             </div>
             <div className="userShowInfo">
               <LocationSearching className="userShowIcon" />
-              <span className="userShowInfoTitle">New York | USA</span>
+              <span className="userShowInfoTitle">{staff.address}</span>
+            </div>
+
+            <div className="documents">
+              <Description />
+              <span>Contract 1</span>
+            </div>
+            <div className="documents">
+              <Description />
+              <span>Contract 2</span>
             </div>
           </div>
         </div>
@@ -64,7 +92,7 @@ export default function User() {
                 <label>Username</label>
                 <input
                   type="text"
-                  placeholder="annabeck99"
+                  placeholder={staff.username}
                   className="userUpdateInput"
                 />
               </div>
@@ -72,7 +100,7 @@ export default function User() {
                 <label>Full Name</label>
                 <input
                   type="text"
-                  placeholder="Anna Becker"
+                  placeholder={staff.fullname}
                   className="userUpdateInput"
                 />
               </div>
@@ -80,7 +108,7 @@ export default function User() {
                 <label>Email</label>
                 <input
                   type="text"
-                  placeholder="annabeck99@gmail.com"
+                  placeholder={staff.email}
                   className="userUpdateInput"
                 />
               </div>
@@ -88,7 +116,7 @@ export default function User() {
                 <label>Phone</label>
                 <input
                   type="text"
-                  placeholder="+1 123 456 67"
+                  placeholder={staff.phone}
                   className="userUpdateInput"
                 />
               </div>
@@ -96,7 +124,7 @@ export default function User() {
                 <label>Address</label>
                 <input
                   type="text"
-                  placeholder="New York | USA"
+                  placeholder={staff.address}
                   className="userUpdateInput"
                 />
               </div>

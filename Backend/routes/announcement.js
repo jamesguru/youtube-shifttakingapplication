@@ -10,6 +10,7 @@ router.post("/", async (req, res) => {
     const newAnnouncement = Announcement(req.body);
     await newAnnouncement.save();
     await announcementEmail(req.body.title, req.body.description);
+    res.status(201).json("announcement has been added successfully")
   } catch (error) {
     res.status(500).json(error);
   }

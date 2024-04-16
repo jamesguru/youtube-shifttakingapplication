@@ -152,3 +152,9 @@
     color: white;
     font-weight: 600;
 }
+
+.documents{
+  display: flex;
+  align-items: center;
+  margin: 10px 0px;
+}
