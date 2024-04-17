@@ -1,43 +1,100 @@
 import "./newProduct.css";
+import Select from "react-select";
+import moment from "moment";
+import {useEffect,useState} from 'react';
+import { publicRequest } from "../../requestMethods";
 
 export default function NewProduct() {
+  const [inputs, setInputs] = useState({});
+  const [clients, setClients] = useState([]);
+  const [staffs, setStaffs] = useState([]);
+  const [selectedStaff, setSelectedStaff]=useState(null)
+  const handleStaffChange = (selectOption) =>{
+    setSelectedStaff(selectOption);
+    setInputs((prev) => {
+      return {...prev, staffEmail: selectOption.value}
+    })
+  }
+  const handleChange = (e) => {
+    setInputs((prev) => {
+      return {...prev, [e.target.name]: e.target.value}
+    })
+  }
+
+  useEffect(() => {
+    const getClients = async () => {
+      try {
+        const res = await publicRequest.get("/clients");
+        setClients(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getClients();
+  }, []);
+
+  useEffect(() => {
+    const getStaffs = async () => {
+      try {
+        const res = await publicRequest.get("/users");
+        setStaffs(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getStaffs();
+  }, []);
+
+  const handleClick = async (e) => {
+    e.preventDefault();
+    try {
+      await publicRequest.post("/shifts", {inputs});
+      window.location.reload();
+    } catch (error) {
+      console.log(error)
+    }
+  }
   return (
     <div className="newProduct">
       <h1 className="addProductTitle">New Shift</h1>
-      <form className="addProductForm">
-       
+      <form className="addProductForm"> 
         <div className="addProductItem">
           <label>Location</label>
-          <input type="text" placeholder="789 Oak St, Village, Country" />
+          <Select options={clients.map(client => ({value: client.address, label:client.address}))}
+          onChange={(selectOption) => handleChange({target:{name:"location", value: selectOption.value}})}
+          />
         </div>
         <div className="addProductItem">
           <label>Date And Time</label>
-          <input type="text" placeholder="date" />
-          <input type="text" placeholder="10:00 AM - 12:00 PM"/>
+          <input name="date" type="text" placeholder="date" onChange={handleChange} />
+          <input name="time" type="text" placeholder="10:00 AM - 12:00 PM" onChange={handleChange}/>
         </div>
         <div className="addProductItem">
           <label>Type</label>
-          <input type="text" placeholder="AM/PM" />
+          <input name="type" type="text" placeholder="AM/PM" onChange={handleChange}/>
         </div>
         <div className="addProductItem">
           <label>Client</label>
-          <input type="text" placeholder="John Doe" />
+          <Select options={clients.map(client => ({value: client.fullname, label:client.fullname}))}
+          onChange={(selectOption) => handleChange({target:{name:"client", value: selectOption.value}})}
+          />
         </div>
         <div className="addProductItem">
           <label>Duration</label>
-          <input type="text" placeholder="3 hours" />
+          <input name="duration" type="text" placeholder="3 hours" onChange={handleChange}/>
         </div>
         <div className="addProductItem">
           <label>Notes</label>
-       <textarea name="" id="" cols="30" rows="10"></textarea>
+       <textarea name="notes" id="" cols="30" rows="10" onChange={handleChange}></textarea>
         </div>
 
         <div className="addProductItem">
           <label>Assign Shift</label>
-          <select name="" id="">
-            <option value=""> James Doe</option>
-            <option value="">John Doe</option>
-          </select>
+          <Select options={staffs.map(staff => ({value: staff.email, label:staff.fullname}))}
+          onChange={handleStaffChange}
+          value={selectedStaff}
+          placeholder="Select Staff"
+          />
         </div>
 
         <div className="addProductItem">
@@ -47,7 +104,7 @@ export default function NewProduct() {
             <option value="no">No</option>
           </select>
         </div>
-        <button className="addProductButton">Create</button>
+        <button className="addProductButton" onClick={handleClick}>Create</button>
       </form>
     </div>
   );
