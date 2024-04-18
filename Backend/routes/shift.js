@@ -71,7 +71,7 @@ router.post("/me", async (req, res) => {
 
 // UNASSIGN SHIFTS
 
-router.post("/unassign", async (req, res) => {
+router.get("/unassign", async (req, res) => {
   try {
     const unassignedShift = await Shift.find({ staffEmail: "" }).sort({
       createdAt: -1,
