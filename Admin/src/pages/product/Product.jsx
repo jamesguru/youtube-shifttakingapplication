@@ -1,8 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
 import "./product.css";
-import Chart from "../../components/chart/Chart";
-import { productData } from "../../dummyData";
-import { Publish } from "@material-ui/icons";
 import { useState, useEffect } from "react";
 import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api";
 import { publicRequest } from "../../requestMethods";
