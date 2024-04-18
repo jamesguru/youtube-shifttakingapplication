@@ -12,6 +12,7 @@ import NewProduct from "./pages/newProduct/NewProduct";
 import Announcement from "./pages/Announcement/Announcement";
 import ClientList from "./pages/ClientList/ClientList";
 import Client from "./pages/client/Client"
+import NewClient from "./pages/newClient/NewClient";
 
 function App() {
   return (
@@ -40,6 +41,9 @@ function App() {
           </Route>
           <Route path="/newStaff">
             <NewUser />
+          </Route>
+          <Route path="/newClient">
+            <NewClient />
           </Route>
           <Route path="/shifts">
             <ProductList />
