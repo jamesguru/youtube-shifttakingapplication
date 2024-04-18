@@ -31,7 +31,7 @@ import {
       <div className="user">
         <div className="userTitleContainer">
           <h1 className="userTitle">Edit Client</h1>
-          <Link to="/newUser">
+          <Link to="/newClient">
             <button className="userAddButton">Create</button>
           </Link>
         </div>

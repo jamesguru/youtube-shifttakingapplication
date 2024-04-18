@@ -1,53 +1,41 @@
-import "./newUser.css";
 import { useState } from "react";
 import { publicRequest } from "../../requestMethods";
-export default function NewUser() {
+
+export default function NewClient() {
   const [username, setUsername] = useState("");
   const [fullname, setFullname] = useState("");
-  const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
   const [gender, setGender] = useState("");
   const [files, setFile] = useState([]);
+  const [DOB, setDOB] = useState("");
+  const [startdate, setStartDate] = useState("");
+  const [enddate, setEndDate] = useState("");
+  const [desc, setDesc] = useState("");
+  const [ndisNo, setNdisNo] = useState("");
 
   const handleClick = async (e) => {
     e.preventDefault();
-    const lowercaseChars = "abcdefghijklmnopqrstuvwxyz";
-    const uppercaseChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    const numericChars = "0123456789";
-    const specialChars = "!@#$%^&*()-=_+[]{}|;:,.<>?";
-    // Combine all character sets
-    const allChars =
-      lowercaseChars + uppercaseChars + numericChars + specialChars;
-    // Set the desired password length
-    const passwordLength = 12; // You can adjust the length as needed
-    // Generate the password
-    let password = "";
-    for (let i = 0; i < passwordLength; i++) {
-      const randomIndex = Math.floor(Math.random() * allChars.length);
-      password += allChars.charAt(randomIndex);
-    }
-
-    const staffid = Math.floor(Math.random() * 10000 + 1);
-    const id = `AP${staffid}`;
     const formData = new FormData();
     formData.append("username", username);
     formData.append("fullname", fullname);
-    formData.append("password", password);
-    formData.append("email", email);
     formData.append("phone", phone);
     formData.append("address", address);
     formData.append("gender", gender);
-    formData.append("staffID", id);
-
+    formData.append("startdate", startdate);
+    formData.append("enddate", enddate);
+    formData.append("ndisNo", ndisNo);
+    formData.append("desc", desc);
+    formData.append("DOB", DOB);
     for (let i = 0; i < files.length; i++) {
       formData.append("files", files[i]);
     }
 
     try {
-      await publicRequest.post("/auth/register", formData, {
+      await publicRequest.post("/clients", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
+
       window.location.reload();
     } catch (error) {
       console.log(error);
@@ -56,7 +44,7 @@ export default function NewUser() {
 
   return (
     <div className="newUser">
-      <h1 className="newUserTitle">New User</h1>
+      <h1 className="newUserTitle">New Client</h1>
       <form className="newUserForm">
         <div className="newUserItem">
           <label>Username</label>
@@ -74,14 +62,6 @@ export default function NewUser() {
             onChange={(e) => setFullname(e.target.value)}
           />
         </div>
-        <div className="newUserItem">
-          <label>Email</label>
-          <input
-            type="email"
-            placeholder="john@gmail.com"
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </div>
 
         <div className="newUserItem">
           <label>Phone</label>
@@ -97,6 +77,50 @@ export default function NewUser() {
             type="text"
             placeholder="New York | USA"
             onChange={(e) => setAddress(e.target.value)}
+          />
+        </div>
+        <div className="newUserItem">
+          <label>Plan Start Date</label>
+          <input
+            type="text"
+            placeholder="25/04/2022"
+            onChange={(e) => setStartDate(e.target.value)}
+          />
+        </div>
+        <div className="newUserItem">
+          <label>Plan End Date</label>
+          <input
+            type="text"
+            placeholder="25/04/2028"
+            onChange={(e) => setEndDate(e.target.value)}
+          />
+        </div>
+
+        <div className="newUserItem">
+          <label>NDIS NO</label>
+          <input
+            type="text"
+            placeholder="5627923726"
+            onChange={(e) => setNdisNo(e.target.value)}
+          />
+        </div>
+        <div className="newUserItem">
+          <label>DOB</label>
+          <input
+            type="text"
+            placeholder="03/11/1965"
+            onChange={(e) => setDOB(e.target.value)}
+          />
+        </div>
+
+        <div className="newUserItem">
+          <label>Notes</label>
+          <textarea
+            type="text"
+            placeholder="A 78 old man living with eyesight disability"
+            rows={10}
+            cols={15}
+            onChange={(e) => setDesc(e.target.value)}
           />
         </div>
         <div className="newUserItem">
@@ -129,11 +153,11 @@ export default function NewUser() {
           </div>
         </div>
         <div className="newUserItem">
-          <label>Staff's Documents</label>
+          <label>Clients's Documents</label>
           <input
             type="file"
-            multiple
             onChange={(e) => setFile(e.target.files)}
+            multiple
           />
         </div>
         <div className="newUserItem">

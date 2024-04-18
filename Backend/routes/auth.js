@@ -3,13 +3,28 @@ const User = require("../models/User");
 const router = express.Router();
 const CryptoJS = require("crypto-js");
 const jwt = require("jsonwebtoken");
-const dotenv=require("dotenv");
+const dotenv = require("dotenv");
+const multer = require("multer");
 dotenv.config();
 const { sendWelcomeEmail } = require("../EmailService/Welcome");
 
-// REGISTER
 
-router.post("/register", async (req, res) => {
+// CREATE
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "./files");
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now();
+    cb(null, uniqueSuffix + file.originalname);
+  },
+});
+
+const upload = multer({ storage: storage });
+
+// REGISTER
+router.post("/register", upload.array("files", 5), async (req, res) => {
+  const fileNames = req.files.map((file) => file.filename);
   const newUser = User({
     username: req.body.username,
     email: req.body.email,
@@ -18,15 +33,15 @@ router.post("/register", async (req, res) => {
     address: req.body.address,
     staffID: req.body.staffID,
     gender: req.body.gender,
-    documents: [],
-    password: CryptoJS.AES.encrypt(
+    documents: fileNames,
+    password: CryptoJs.AES.encrypt(
       req.body.password,
-      process.env.SECRET
+      process.env.PASS
     ).toString(),
   });
 
   try {
-    const user = await newUser.save();
+    await newUser.save();
     await sendWelcomeEmail(
       req.body.fullname,
       req.body.staffID,
@@ -61,11 +76,11 @@ router.post("/login", async (req, res) => {
 
     const { password, ...info } = user._doc;
     const accessToken = jwt.sign(
-      { id: user._id, role: user.role},
+      { id: user._id, role: user.role },
       process.env.JWT_SEC,
-      {expiresIn: "10d" }
+      { expiresIn: "10d" }
     );
-    res.status(200).json({ ...info, accessToken});
+    res.status(200).json({ ...info, accessToken });
   } catch (error) {
     res.status(500).json(error);
   }
