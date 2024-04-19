@@ -99,3 +99,11 @@
     font-size: 18px;
     font-weight: 500;
 }
+
+.none{
+    display: none;
+}
+
+.view{
+    cursor: pointer;
+}
