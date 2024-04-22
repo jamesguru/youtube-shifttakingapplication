@@ -141,3 +141,14 @@ tr{
 tr:nth-child(even){
     background-color: #1dbf730f;
 }
+
+.update-bid{
+    background-color: rgb(24 92 175);
+    color: whitesmoke;
+    border: none;
+    cursor: pointer;
+    width: 150px;
+    padding: 10px;
+    cursor: pointer;
+
+}

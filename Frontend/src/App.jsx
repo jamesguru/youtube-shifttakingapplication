@@ -1,4 +1,4 @@
-import {createBrowserRouter,RouterProvider} from 'react-router-dom'
+import {createBrowserRouter,RouterProvider, Navigate} from 'react-router-dom'
 import Home from './pages/Home/Home'
 import Login from './pages/Login/Login'
 import ResetPassword from './pages/ResetPassword/ResetPassword'
@@ -8,8 +8,10 @@ import Account from './pages/Account/Account'
 import Shifts from './pages/Shifts/Shifts'
 import Report from './pages/Report/Report'
 import Shift from './pages/Shift/Shift'
+import {useSelector} from "react-redux";
 
 function App() {
+  const user = useSelector((state) => state.user)
   const router = createBrowserRouter([
  
     {
@@ -30,23 +32,23 @@ function App() {
     },
     {
       path: "/staff",
-      element: <Staff />,
+      element: user.currentUser ? <Staff /> : <Navigate to="/login"/>,
     },
     {
       path: "/myaccount",
-      element: <Account />,
+      element: user.currentUser ? <Account /> : <Navigate to="/login"/>,
     },
     {
       path: "/myshifts",
-      element: <Shifts />,
+      element:user.currentUser ? <Shifts /> : <Navigate to="/login"/>,
     },
     {
       path: "/report",
-      element: <Report />,
+      element: user.currentUser ? <Report /> : <Navigate to="/login"/>,
     },
     {
       path: "/shift/:id",
-      element: <Shift/>,
+      element: user.currentUser ? <Shift /> : <Navigate to="/login"/>,
     },
   ])
 

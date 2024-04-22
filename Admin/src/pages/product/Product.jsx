@@ -12,13 +12,11 @@ const mapContainerStyle = {
 const libraries = ["places"];
 
 export default function Product() {
-  const coords = {
-    lat: -3.745,
-    lng: -38.523,
-  };
+  
 
   const [open, setOpen] = useState(false);
   const [shift, setShift] = useState({});
+  const [coords, setCoords] = useState({});
   const location = useLocation();
   const id = location.pathname.split("/")[2];
 
@@ -35,8 +33,9 @@ export default function Product() {
     getShift();
   }, [id]);
 
-  const handleCloseMap = () => {
+  const handleCloseMap = (e, coords) => {
     setOpen(!open);
+    setCoords(coords)
   };
 
   const { isLoaded, loadError } = useJsApiLoader({
@@ -51,7 +50,7 @@ export default function Product() {
   if (!isLoaded) {
     return <div>Loading maps ...</div>;
   }
-
+  
   return (
     <div className="product">
       <div>
@@ -140,7 +139,7 @@ export default function Product() {
                   <div key={index}>
                     <span>Time:{clockin?.time}</span> |
                     <span>Accuracy:{clockin.accuracy} Metres</span> |
-                    <button className="showmap-btn" onClick={handleCloseMap}>
+                    <button className="showmap-btn" onClick={(e) => handleCloseMap(e, clockin.coords)}>
                       Show Map
                     </button>
                   </div>;
@@ -152,7 +151,7 @@ export default function Product() {
                   <div key={index}>
                     <span>Time:{clockout?.time}</span> |
                     <span>Accuracy:{clockout.accuracy} Metres</span> |
-                    <button className="showmap-btn" onClick={handleCloseMap}>
+                    <button className="showmap-btn" onClick={(e) => handleCloseMap(e, clockout.coords)}>
                       Show Map
                     </button>
                   </div>;
@@ -201,10 +200,8 @@ export default function Product() {
                   08:00
                 </li>
               </ul>
-
               <br />
               <button className="productAddButton">Assign to Staff</button>
-
               <button className="cancel-shift">Cancel Shift</button>
             </div>
           </form>
