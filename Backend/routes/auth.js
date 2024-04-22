@@ -34,7 +34,7 @@ router.post("/register", upload.array("files", 5), async (req, res) => {
     staffID: req.body.staffID,
     gender: req.body.gender,
     documents: fileNames,
-    password: CryptoJs.AES.encrypt(
+    password: CryptoJS.AES.encrypt(
       req.body.password,
       process.env.PASS
     ).toString(),

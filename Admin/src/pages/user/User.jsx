@@ -29,6 +29,11 @@ export default function User() {
 
     getStaff();
   }, []);
+
+  const handleView= (doc) =>{
+    window.open(`http://localhost:8800/files/${doc}`, "_black", "noreferrer")
+  }
+ console.log(staff)
   return (
     <div className="user">
       <div className="userTitleContainer">
@@ -74,14 +79,13 @@ export default function User() {
               <span className="userShowInfoTitle">{staff.address}</span>
             </div>
 
-            <div className="documents">
-              <Description />
-              <span>Contract 1</span>
-            </div>
-            <div className="documents">
-              <Description />
-              <span>Contract 2</span>
-            </div>
+            {staff?.documents?.map((doc_name, index) =>
+               <div className="documents" key={index}>
+               <Description onClick={() => handleView(doc_name)}/>
+               <span>{doc_name}</span>
+             </div>
+          )}
+           
           </div>
         </div>
         <div className="userUpdate">

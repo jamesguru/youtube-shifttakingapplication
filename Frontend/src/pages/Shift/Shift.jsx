@@ -8,6 +8,11 @@ const Shift = () => {
   const location = useLocation();
   const [coords, setCoords] = useState({});
   const [accuracy, setAccuracy] = useState(0);
+  const [time, setTime] = useState(null);
+  const [event, setEvent] = useState("");
+  const [notes, setNotes] = useState("");
+  const [distance, setDistance] = useState("");
+
   const [currentTime, setCurrentTime] = useState(
     new Date().toLocaleTimeString()
   );
@@ -50,16 +55,16 @@ const Shift = () => {
             accuracy,
           });
         }
+        window.location.reload();
       } catch (error) {
         console.log(error);
       }
-    }else{
+    } else {
       console.error("Geolocation is not supported by this browser");
     }
   };
 
   const handleClockOut = async () => {
-
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
@@ -83,19 +88,81 @@ const Shift = () => {
             accuracy,
           });
         }
+        window.location.reload();
       } catch (error) {
         console.log(error);
       }
-    }else{
+    } else {
       console.error("Geolocation is not supported by this browser");
     }
   };
 
+  const handleAddNotes = async () => {
+    const now = new Date();
+    setTime(now.toLocaleString());
+
+    if (time && event && notes) {
+      try {
+        await publicRequest.put(`/shifts/casenote/${shiftId}`, {
+          event,
+          notes,
+          time,
+        });
+
+        setEvent("");
+        setNotes("");
+        window.location.reload();
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
+  const showStatus = (clockIn, clockOut) => {
+    if (clockIn?.length === 0 && clockOut?.length === 0) {
+      return "Pending";
+    } else if (clockIn?.length > 0 && clockOut?.length === 0) {
+      return "Ongoing";
+    } else {
+      return "Completed";
+    }
+  };
+
+  const handleUpdateDistance = async (e) => {
+    e.preventDefault();
+    try {
+      await publicRequest.put(`/shifts/${shiftId}`, {
+        distance,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleBid= async() => {
+    try {
+
+      await publicRequest.put(`/shifts/assign/${shiftId}`,{
+        location: shift.location,
+        date:shift.date,
+        time:shift.time,
+        type:shift.type,
+        duration:shift.duration,
+        staffEmail:"alokmondala199@gmail.com",
+        client:shift.client,
+        notes:shift.notes
+
+      })
+      window.location.reload();
+    } catch (error) {
+      console.log(error);
+    }
+  }
   return (
     <div className="shift-container">
       <div className="shift">
         <span className="myshifts_back">
-          <Link to="/staffs">
+          <Link to="/staff">
             <FaArrowLeft /> Back
           </Link>
         </span>
@@ -130,7 +197,7 @@ const Shift = () => {
             </li>
             <li>
               <strong>Status:</strong>
-              {shift.status}
+              {showStatus(shift.clockin, shift.clockout)}
             </li>
             <li>
               <strong>Notes:</strong>
@@ -138,13 +205,25 @@ const Shift = () => {
             </li>
           </ul>
 
+
+         {shift.staffEmail ? '' :  <button className="update-bid" onClick={handleBid}>Bid</button>}
+
           <div className="distance">
             <strong>Distance Covered</strong>
-            <input type="Number" placeholder={shift.distance} />
+            <input
+              type="Number"
+              placeholder={shift.distance}
+              onChange={(e) => setDistance(e.target.value)}
+            />
 
             <div className="distance-update">
               <span>km</span>
-              <button className="update-distance">Update</button>
+              <button
+                className="update-distance"
+                onClick={handleUpdateDistance}
+              >
+                Update
+              </button>
             </div>
           </div>
         </div>
@@ -156,11 +235,13 @@ const Shift = () => {
               <th>Case</th>
               <th>Notes</th>
             </tr>
-            <tr>
-              <td>3/27/2024, 3:30:13 PM</td>
-              <td>Violence</td>
-              <td>Violence occurred between the client and the neighbours.</td>
-            </tr>
+          {shift.casenotes?.map((event,index) =>{
+            <tr key={index}>
+            <td>{event.time}</td>
+            <td>{event.event}</td>
+            <td>{event.notes}</td>
+          </tr>
+          })}
           </table>
 
           <div className="add_casenotes">
@@ -170,18 +251,28 @@ const Shift = () => {
 
           <div className="casenotes_inputs">
             <label htmlFor="">Case</label>
-            <input type="text" />
+            <input type="text" onChange={(e) => setEvent(e.target.value)} />
             <label htmlFor="">Notes</label>
-            <textarea name="" id="" cols="30" rows="10"></textarea>
-            <button>Submit</button>
+            <textarea
+              name=""
+              id=""
+              cols="30"
+              rows="10"
+              onChange={(e) => setNotes(e.target.value)}
+            ></textarea>
+            <button onClick={handleAddNotes}>Submit</button>
           </div>
         </div>
       </div>
       <div className="button-container">
         <button className="shift_report_btn">Report</button>
         <div className="clockin_clockout">
-          <button className="shift_clockin_btn">Clock In</button>
-          <button className="shift_clockout_btn">Clock Out</button>
+          <button className="shift_clockin_btn" onClick={handleClockIn}>
+            Clock In
+          </button>
+          <button className="shift_clockout_btn" onClick={handleClockOut}>
+            Clock Out
+          </button>
         </div>
       </div>
     </div>
